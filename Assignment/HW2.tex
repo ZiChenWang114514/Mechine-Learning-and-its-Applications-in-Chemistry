@@ -1,0 +1,154 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+
+\usepackage{ctex}
+\usepackage{amsfonts, amsmath, amsthm, amssymb, bm, graphicx, hyperref, mathrsfs, indentfirst}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, % 将colorlinks设置为true以启用彩色链接
+    linkcolor=black, % 链接颜色为黑色
+    citecolor=black, % 引用颜色为黑色
+    urlcolor=black % URL颜色为黑色
+}
+\usepackage{geometry}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\usepackage{tikz}
+\usepackage{bussproofs}
+
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+
+\title{\huge{\textbf{MLChem\,作业二}}}
+\author{\kaishu 2100011873 王子宸\\
+        \kaishu 化学与分子工程学院}
+\date{\kaishu \today}
+\begin{document}
+
+\maketitle
+
+\section{题目1}
+
+Sigmoid函数：
+\begin{equation}\label{eq1}
+    \sigma(a) = \dfrac{1}{1+e^{-a}}
+\end{equation}
+
+判断其对称性质，根据 \eqref{eq1}，有
+\begin{align*}
+    \sigma(-a) = \dfrac{1}{1+e^{a}} = \dfrac{e^{-a}}{e^{-a}+1} = 1 - \dfrac{1}{1+e^{-a}} = 1 - \sigma(a)
+\end{align*}
+
+考虑其逆函数，令：
+\begin{equation*}
+    y = \sigma(x) = \dfrac{1}{1+e^{-x}}
+\end{equation*}
+有：
+\begin{align*}
+    e^{-x} &= \dfrac{1}{y} - 1\\
+    -x &= \ln\dfrac{1-y}{y}\\
+    \therefore x = \sigma^{-1}(x) &= \ln\dfrac{y}{1-y}
+\end{align*}
+
+\section{题目2}
+
+在逻辑回归中，预测的线性函数为：
+\begin{equation}
+z = w_0 + w_1x_1 + w_2x_2
+\end{equation}
+
+sigmoid函数定义为：
+\begin{equation}
+\sigma(z) = \dfrac{1}{1 + e^{-z}}
+\end{equation}
+
+给定学习到的参数 $w_0=2, w_1=-2, w_2=1$，我们可以先计算 $z$ 的值。
+
+\begin{enumerate}
+    \item 当 $\mathbf{x} =(0.5,1)$ 时：
+    \begin{align*}
+    z &= 2 - 2\times 0.5 + 1\times 1 \\
+    &= 2 - 1 + 1 \\
+    &= 2
+    \end{align*}
+    然后，计算 $\sigma(z)$ 的值：
+    \begin{equation}
+    \sigma(2) = \dfrac{1}{1 + e^{-2}} \approx 0.8808
+    \end{equation}
+
+    \item 当 $\mathbf{x} =(1,-1)$ 时：
+    \begin{align*}
+    z &= 2 - 2(1) + 1(-1) \\
+    &= 2 - 2 - 1 \\
+    &= -1
+    \end{align*}
+    然后，计算 $\sigma(z)$ 的值：
+    \begin{equation}
+    \sigma(-1) = \dfrac{1}{1 + e^{1}} \approx 0.2689
+    \end{equation}
+\end{enumerate}
+
+所以，在 $\mathbf{x} =(0.5,1)$ 时逻辑函数的值为 0.8808，而在 $\mathbf{x} =(1,-1)$ 时的值为 0.2689。
+
+接下来，关于决策面：
+在二维平面上，我们可以考虑 $z = 0$ 的情况，因为这是两个分类之间的边界，即 $\sigma(z) = 0.5$。给定 $z = w_0 + w_1x_1 + w_2x_2 = 0$，我们得到的决策面方程为：
+\begin{equation}
+x_2 = 2x_1 - 2
+\end{equation}
+这就是在 $(x_1,x_2)$ 平面上的决策面。
+
+
+\section{题目3}
+
+对于二值的归类问题，逻辑回归表示的概率：
+\begin{equation}\label{eq2}
+    \begin{aligned}
+    & p(y=1 \mid \boldsymbol{x})=\dfrac{e^{\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b}}{1+e^{\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b}} \\
+    & p(y=0 \mid \boldsymbol{x})=\dfrac{1}{1+e^{\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b}}
+    \end{aligned}
+\end{equation}
+
+
+根据最大似然估计，逻辑回归的对数似然函数为：
+\begin{equation}
+    \ell(\boldsymbol{w}, b)=\sum_{i=1}^m \ln p\left(y_i \mid \boldsymbol{x}_i ; \boldsymbol{w}, b\right)
+\end{equation}
+其中，将$\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b$记为$\mathbf{w}^{\mathrm{T}}x$，损失函数取为对数似然函数的负值，得到损失函数：
+\begin{equation*}
+    \begin{aligned}
+E(\mathbf{w}) & =-\sum_{i=1}^m \ln \left(\left[p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right]^{y_i}\left[p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right]^{1-y_i}\right) \\
+& =-\sum_{i=1}^m\left[y_i \ln \left(p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)+\left(1-y_i\right) \ln \left(p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)\right] \\
+& =-\sum_{i=1}^m\left\{y_i\left[\ln \left(p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)-\ln \left(p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)\right]+\ln \left(p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)\right\} \\
+& =-\sum_{i=1}^m\left[y_i \ln \left(\dfrac{p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)}{p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)}\right)+\ln \left(p_0\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)\right] \\
+& =-\sum_{i=1}^m\left[y_i \ln \left(e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)+\ln \left(\dfrac{1}{1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}\right)\right] \\
+& =-\sum_{i=1}^m\left(y_i \mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i-\ln \left(1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)\right)
+\end{aligned}
+\end{equation*}
+
+对损失函数求一阶导数，得到损失函数的梯度：
+
+\begin{equation*}
+    \begin{aligned}
+        \nabla E(\mathrm{w})=\dfrac{\partial E(\mathbf{w})}{\partial \mathbf{w}} & =\dfrac{\partial \sum_{i=1}^m\left(\ln \left(1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right) - y_i \mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i\right)}{\partial \mathbf{w}} \\
+        & =\sum_{i=1}^m\left(\dfrac{\partial \ln \left(1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)}{\partial \mathbf{w}}-\dfrac{\partial\left(y_i \mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i\right)}{\partial \mathbf{w}}\right) \\
+        & =\sum_{i=1}^m\left(\dfrac{1}{1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}} \cdot \hat{\boldsymbol{x}}_i e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}-y_i \hat{\boldsymbol{x}}_i\right) \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\left(\dfrac{e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{1+e^{\mathbf{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}-y_i\right) \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\left(p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)-y_i\right)
+    \end{aligned}
+\end{equation*}
+
+对损失函数求二阶导数：
+\begin{equation*}
+    \begin{aligned}
+        \dfrac{\partial^2 E(\mathrm{w})}{\partial \mathrm{w} \partial \mathrm{w}^{\mathrm{T}}} & =\dfrac{\partial \sum_{i=1}^m \hat{\boldsymbol{x}}_i\left(\dfrac{e^{\mathrm{w}^{\mathrm{T}} \hat{x}_i}}{1+e^{\mathrm{T}} \hat{\boldsymbol{x}}_i}-y_i\right)}{\partial \mathrm{w}^{\mathrm{T}}} \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i \dfrac{\partial\left(\dfrac{e^{\mathrm{w}^{\mathrm{T}} \hat{\hat{x}}_i}}{1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}-y_i\right)}{\partial \mathrm{w}^{\mathrm{T}}} \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\left(\dfrac{\partial\left(\dfrac{e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}\right)}{\partial \mathrm{w}^{\mathrm{T}}}-\dfrac{\partial y_i}{\partial \mathrm{w}^{\mathrm{T}}}\right) \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i \cdot \dfrac{\partial\left(\dfrac{e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}\right)}{\partial \mathrm{w}^{\mathrm{T}}}\\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\cdot\left(\dfrac{\hat{\boldsymbol{x}}_i^{\mathrm{T}}e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}} - \dfrac{e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i} \cdot \hat{\boldsymbol{x}}_i^{\mathrm{T}}e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{\left(1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)^2} \right)\\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\cdot \dfrac{\hat{\boldsymbol{x}}_i^{\mathrm{T}}e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\left(1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right) - e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i} \cdot \hat{\boldsymbol{x}}_i^{\mathrm{T}}e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{\left(1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)^2} \\
+        & =\sum_{i=1}^m \hat{\boldsymbol{x}}_i\cdot \dfrac{\hat{\boldsymbol{x}}_i^{\mathrm{T}}e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}}{\left(1+e^{\mathrm{w}^{\mathrm{T}} \hat{\boldsymbol{x}}_i}\right)^2} \\
+        & = \sum_{i=1}^m \hat{\boldsymbol{x}}_i \hat{\boldsymbol{x}}_i^{\mathrm{T}}p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\left(1-p_1\left(\hat{\boldsymbol{x}}_i ; \mathbf{w}\right)\right)
+    \end{aligned}
+\end{equation*}
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[utf8]{inputenc}
+
+\usepackage{ctex}
+\usepackage{amsfonts, amsmath, amsthm, amssymb, bm, graphicx, hyperref, mathrsfs, indentfirst}
+\usepackage{geometry}
+\geometry{left=2.54cm,right=2.54cm,top=3.18cm,bottom=3.18cm}
+\usepackage{tikz}
+\usepackage{bussproofs}
+
+\usepackage{xcolor}
+\usepackage[most]{tcolorbox}
+
+
+\title{\huge{\textbf{MLChem\,作业一}}}
+\author{\kaishu 2100011873 王子宸\\
+        \kaishu 化学与分子工程学院}
+\date{\kaishu \today}
+\begin{document}
+
+\maketitle
+
+\section{题目1}
+
+\subsection{}
+已阅
+\subsection{}
+
+已知：$s\sim \mathcal{N}(\mu,\sigma^2), t\sim \mathcal{N}(\mu,\sigma^2), s = f(t) = at + b$，令：
+\begin{align*}
+    y &= s - \mu,\quad x\sim \mathcal{N}(0,\sigma^2)\\
+    x &= t - \mu,\quad y\sim \mathcal{N}(0,\sigma^2)
+\end{align*}
+\begin{align*}
+    \therefore  y& + \mu = f(t) = f(x) = a(x + \mu) + b\\
+    \therefore  y& = ax + [\mu(a-1)+b]
+\end{align*}
+有线性回归，在$y = ax + [\mu(a-1)+b]$中，
+\begin{align*}
+    &a = \frac{\langle xy \rangle-\langle x\rangle\langle y\rangle}{\langle x^2\rangle-\langle x\rangle^2} = \frac{r\sigma^2}{\sigma^2} = r\\
+    &[\mu(a-1)+b] = \frac{\langle x^2\rangle\langle y\rangle-\langle x\rangle\langle xy\rangle}{\langle x^2\rangle-\langle x\rangle^2} = 0\\
+    \therefore \,&b = \mu(1-a)\\
+\end{align*}
+最终，得到：
+\begin{align*}
+    y &= rx\\
+    s &= rt + \mu(1-a)
+\end{align*}
+结论：
+\begin{itemize}
+    \item 如果$x>0$（即$t>\mu$），平均而言，父亲的身高高于儿子的身高；
+    \item 如果$x=0$（即$t=\mu$），平均而言，父亲的身高与儿子的身高相同；
+    \item 如果$x<0$（即$t<\mu$），平均而言，父亲的身高低于儿子的身高；
+\end{itemize}
+
+\subsection{}
+已知：$s\sim \mathcal{N}(\mu,\sigma^2), t\sim \mathcal{N}(\mu,\sigma^2), t = f(s) = as + b$，同理，令：
+\begin{align*}
+    x &= s - \mu,\quad x\sim \mathcal{N}(0,\sigma^2)\\
+    y &= t - \mu,\quad y\sim \mathcal{N}(0,\sigma^2)
+\end{align*}
+\begin{align*}
+    \therefore  y& + \mu = f(s) = f(x) = a(x + \mu) + b\\
+    \therefore  y& = ax + [\mu(a-1)+b]
+\end{align*}
+有线性回归，在$y = ax + [\mu(a-1)+b]$中，
+\begin{align*}
+    &a = \frac{\langle xy \rangle-\langle x\rangle\langle y\rangle}{\langle x^2\rangle-\langle x\rangle^2} = \frac{r\sigma^2}{\sigma^2} = r\\
+    &[\mu(a-1)+b] = \frac{\langle x^2\rangle\langle y\rangle-\langle x\rangle\langle xy\rangle}{\langle x^2\rangle-\langle x\rangle^2} = 0\\
+    \therefore \,&b = \mu(1-a)\\
+\end{align*}
+最终，得到：
+\begin{align*}
+    y &= rx\\
+    t &= rs + \mu(1-a)
+\end{align*}
+结论：
+\begin{itemize}
+    \item 如果$x>0$（即$s>\mu$），平均而言，儿子的身高高于父亲的身高；
+    \item 如果$x=0$（即$s=\mu$），平均而言，儿子的身高与父亲的身高相同；
+    \item 如果$x<0$（即$s<\mu$），平均而言，儿子的身高低于父亲的身高；
+\end{itemize}
+
+\subsection{}
+“父亲平均矮于儿子”与“儿子平均矮于父亲”能够同时成立：因为这两句话中，“父亲”与“儿子”是完全不同的样本集。“父亲平均矮于儿子”中，“儿子”是平均身高较高的样品集，“父亲”考虑的是这个样品集中儿子的父亲；而“儿子平均矮于父亲”中，“父亲”是平均身高较高的样品集，“儿子”考虑的是这个样品集中父亲的儿子。
+
+\section{题目2}
+\begin{itemize}
+    \item 根据逆概公式（Bayes公式）：
+    \begin{align*}
+        P(\text{狄青钱}|\text{四次正面}) &= \frac{P(\text{三次正面}|\text{狄青钱})P(\text{狄青钱})}{P(\text{三次正面})}\\
+        &= \frac{P(\text{三次正面}|\text{狄青钱})P(\text{狄青钱})}{P(\text{三次正面}|\text{狄青钱})P(\text{狄青钱})+P(\text{三次正面}|\text{正常铜钱})P(\text{正常铜钱})}\\
+        &= \frac{1\times \dfrac{50}{100}}{1\times \dfrac{50}{100}+\left(\dfrac{1}{2}\right)^3\times \dfrac{50}{100}}\\
+        & = \frac89
+    \end{align*}
+    \item 如果第四次仍然为正面，同理，根据逆概公式：
+    \begin{align*}
+        P(\text{狄青钱}|\text{四次正面}) &= \frac{P(\text{四次正面}|\text{狄青钱})P(\text{狄青钱})}{P(\text{四次正面})}\\
+        &= \frac{P(\text{四次正面}|\text{狄青钱})P(\text{狄青钱})}{P(\text{四次正面}|\text{狄青钱})P(\text{狄青钱})+P(\text{四次正面}|\text{正常铜钱})P(\text{正常铜钱})}\\
+        &= \frac{1\times \dfrac{50}{100}}{1\times \dfrac{50}{100}+\left(\dfrac{1}{2}\right)^4\times \dfrac{50}{100}}\\
+        & = \frac{15}{16}
+    \end{align*}
+    \item 如果第四次为反面，显然地：
+    \begin{align*}
+        P(\text{狄青钱}|\text{三次正面一次反面}) &= 0\\
+        P(\text{正常铜钱}|\text{三次正面一次反面}) &= 1
+    \end{align*}
+\end{itemize}
+\end{document}
